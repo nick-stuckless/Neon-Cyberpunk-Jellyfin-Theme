@@ -1,0 +1,331 @@
+/* --- CYBERPUNK HIGH-INTENSITY NEON THEME + LAYOUT OVERHAUL (player-safe) --- */
+
+/* Root color overrides */
+:root {
+  --theme-background: #000000;
+  --theme-primary: #9d4edd; /* Neon Purple */
+  --theme-primary-hover: #c77dff;
+  --theme-accent: #ff007f; /* Neon Pink */
+  --text-main: #ffffff;
+  --text-muted: #b3b3b3;
+}
+
+/* =========================================================================
+   BACKGROUNDS - Pure black everywhere EXCEPT the video player
+   (split into separate rules so older browsers without :has() still work)
+   ========================================================================= */
+body,
+.backgroundContainer,
+.mainDrawer,
+.sidebar,
+.mainAnimatedPages {
+  background-color: var(--theme-background) !important;
+}
+
+/* Every page except the video OSD page */
+.page:not(#videoOsdPage):not(.videoOsdPage) {
+  background-color: var(--theme-background) !important;
+}
+
+/* =========================================================================
+   VIDEO PLAYER FIX
+   The <video> element sits BEHIND the UI, so everything above it must be
+   transparent during playback.
+   ========================================================================= */
+#videoOsdPage,
+.videoOsdPage {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Modern browsers: clear every layer while a video player exists */
+body:has(.videoPlayerContainer),
+body:has(.videoPlayerContainer) .skinBody,
+body:has(.videoPlayerContainer) .backgroundContainer,
+body:has(.videoPlayerContainer) .mainAnimatedPages,
+body:has(.videoPlayerContainer) .page,
+body:has(#videoOsdPage:not(.hide)),
+body:has(#videoOsdPage:not(.hide)) .backgroundContainer,
+body:has(#videoOsdPage:not(.hide)) .mainAnimatedPages {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Header during playback: no blur, no grid animation, no bar over the video */
+.skinHeader.osdHeader {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.skinHeader.osdHeader::before {
+  display: none !important;
+  animation: none !important;
+}
+
+body:has(.videoPlayerContainer) .skinHeader:not(.osdHeader) {
+  display: none !important;
+}
+
+/* =========================================================================
+   CUSTOM TEXT LOGO STYLING (MODERN JELLYFIN FIX)
+   ========================================================================= */
+.pageTitleWithDefaultLogo {
+  background-image: none !important;
+  font-size: 0 !important;
+  padding-left: 0 !important;
+  margin-left: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.pageTitleWithDefaultLogo::before {
+  content: "SERVER NAME HERE" !important; /* Change this text to your custom server name */
+  font-family: 'Courier New', Courier, monospace, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px var(--theme-accent), 0 0 15px var(--theme-accent) !important;
+  transition: text-shadow 0.3s ease, color 0.3s ease !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+}
+
+.pageTitleWithDefaultLogo:hover::before {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px var(--theme-primary-hover), 0 0 15px var(--theme-primary-hover) !important;
+}
+
+/* =========================================================================
+   UNIFIED HEADINGS & SECTION TITLES (NICKFLIX STYLING MATCH)
+   ========================================================================= */
+.pageTitle:not(.pageTitleWithDefaultLogo),
+.headerLeft .pageTitle,
+.sectionTitle,
+.sectionTitleText,
+.homePageSectionTitle,
+.sectionHeader h2 {
+  font-family: 'Courier New', Courier, monospace, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px var(--theme-accent), 0 0 15px var(--theme-accent) !important;
+  margin-left: 10px !important;
+  display: inline-block !important;
+}
+
+/* =========================================================================
+   1. CARD STYLING
+   ========================================================================= */
+.card, .cardBox, .cardPadder {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+.cardScalable {
+  border-radius: 12px !important;
+  overflow: hidden;
+  border: 2px solid rgba(157, 78, 221, 0.45) !important;
+  box-shadow: none !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.card:hover .cardScalable {
+  transform: none !important;
+  border-color: var(--theme-accent) !important;
+  box-shadow: inset 0 0 12px rgba(255, 0, 127, 0.5) !important;
+}
+
+.cardFooter {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.cardOverlayContainer {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%) !important;
+}
+
+.cardText {
+  padding-top: 6px;
+  text-align: left;
+}
+
+.cardText-first {
+  font-weight: 500;
+  font-size: 1em;
+  color: #ffffff !important;
+}
+
+.cardText-secondary {
+  color: var(--text-muted) !important;
+  font-size: 0.85em;
+}
+
+/* =========================================================================
+   2. HEADER & NAVIGATION (Glitch / Matrix Banner Edition)
+   ========================================================================= */
+.skinHeader {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(15px) saturate(180%);
+  position: fixed;
+  height: 4.5em;
+  border-bottom: 2px solid rgba(157, 78, 221, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9), 0 6px 15px rgba(157, 78, 221, 0.4) !important;
+  overflow: hidden;
+}
+
+.skinHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.65;
+  background-size: 35px 35px, 35px 35px, 100% 5px;
+  background-image: linear-gradient(to right, rgba(157, 78, 221, 0.35) 1.5px, transparent 1.5px), linear-gradient(to bottom, rgba(157, 78, 221, 0.35) 1.5px, transparent 1.5px), linear-gradient(to bottom, rgba(255, 0, 127, 0.4) 50%, transparent 50%);
+  animation: matrixShift 15s linear infinite, glitchLines 0.25s steps(3) infinite;
+}
+
+@keyframes matrixShift {
+  0% { background-position: 0px 0px, 0px 0px, 0% 0%; }
+  100% { background-position: 0px 1000px, 0px 0px, 0% 100%; }
+}
+
+@keyframes glitchLines {
+  0% { transform: translateX(-2px) skewX(1deg); filter: hue-rotate(0deg) saturate(1); }
+  50% { transform: translateX(3px) skewX(-1deg); filter: hue-rotate(30deg) saturate(1.5); }
+  100% { transform: translateX(0px) skewX(0deg); filter: hue-rotate(0deg) saturate(1); }
+}
+
+.emby-tab-button {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  margin: 0 10px;
+}
+
+.emby-tab-button-active {
+  color: var(--theme-accent) !important;
+  border-bottom: 3px solid var(--theme-accent) !important;
+  text-shadow: 0 0 12px var(--theme-accent);
+}
+
+/* =========================================================================
+   3. DETAIL PAGE OVERHAUL (Netflix-Style Backdrop Banner Layout)
+   ========================================================================= */
+@media (min-width: 50em) {
+  .detailPageWrapperContainer {
+    padding-top: 5rem;
+  }
+  .detailContainer {
+    margin-top: -120px;
+    background: linear-gradient(to top, #000 40%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0) 100%);
+    padding: 40px !important;
+    border-radius: 20px 20px 0 0;
+    border-top: 2px solid rgba(157, 78, 221, 0.4) !important;
+    box-shadow: 0 -10px 20px rgba(157, 78, 221, 0.15);
+  }
+  .detailImageContainer .card {
+    max-width: 280px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+    border: 2px solid var(--theme-primary);
+  }
+}
+
+/* =========================================================================
+   4. UI COMPONENT STYLING (Buttons, Indicators, Progress Bars)
+   ========================================================================= */
+.raised, .button-submit, .playButton {
+  background: transparent !important;
+  border: 2px solid var(--theme-primary) !important;
+  color: #ffffff !important;
+  border-radius: 30px !important;
+  padding: 0.6em 1.8em;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(157, 78, 221, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.raised:hover, .button-submit:hover, .playButton:hover {
+  border-color: var(--theme-accent) !important;
+  background: var(--theme-accent) !important;
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
+  color: #000000 !important;
+}
+
+.itemProgressBarForeground {
+  background-color: var(--theme-accent) !important;
+  box-shadow: 0 0 8px var(--theme-accent);
+}
+
+.countIndicator, .playedIndicator {
+  background: var(--theme-accent) !important;
+  box-shadow: 0 0 10px var(--theme-accent);
+  color: #000000 !important;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.emby-input, .emby-textarea, .emby-select {
+  background: #0d0d0d !important;
+  border: 1px solid var(--theme-primary) !important;
+  border-radius: 8px;
+  color: white !important;
+}
+
+.emby-input:focus, .emby-textarea:focus, .emby-select:focus {
+  border-color: var(--theme-accent) !important;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.5) !important;
+}
+
+.dialog {
+  border: 2px solid var(--theme-primary) !important;
+  border-radius: 16px;
+  box-shadow: 0 0 35px rgba(157, 78, 221, 0.5);
+  background-color: #000000 !important;
+}
+
+/* =========================================================================
+   MOBILE OPTIMIZATIONS (Shrinks and Re-aligns Text)
+   ========================================================================= */
+@media (max-width: 50em) {
+  .pageTitleWithDefaultLogo::before {
+    font-size: 18px !important;
+    letter-spacing: 1.5px !important;
+    transform: translateY(3px) !important;
+  }
+
+  .pageTitle:not(.pageTitleWithDefaultLogo),
+  .headerLeft .pageTitle,
+  .sectionTitle,
+  .sectionTitleText,
+  .homePageSectionTitle,
+  .sectionHeader h2 {
+    font-size: 18px !important;
+    letter-spacing: 1.5px !important;
+    margin-left: 6px !important;
+    transform: translateY(3px) !important;
+  }
+}
+
+@media (min-width: 50.01em) {
+  .pageTitleWithDefaultLogo::before,
+  .pageTitle:not(.pageTitleWithDefaultLogo),
+  .headerLeft .pageTitle {
+    transform: translateY(5px) !important;
+  }
+
+  .emby-tab-button {
+    transform: translateY(5px);
+  }
+}
